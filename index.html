@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шахтёрское дело города Гуково | Индивидуальный проект</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --coal: #1a1a1a;
+            --coal-light: #2d2d2d;
+            --anthracite: #0d0d0d;
+            --gold: #e8a317;
+            --gold-light: #f0c14b;
+            --orange: #ff6b35;
+            --text: #f5f5f5;
+            --text-muted: #b0b0b0;
+            --card-bg: #252525;
+            --accent: #c45c26;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--anthracite);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            height: 100vh;
+            min-height: 650px;
+            background: linear-gradient(135deg, rgba(13,13,13,0.85) 0%, rgba(26,26,26,0.7) 50%, rgba(196,92,38,0.4) 100%),
+                        url('images/industrial-complex.jpeg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.6) 100%);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--gold);
+            color: #111;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 8px 20px;
+            border-radius: 50px;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        h1 span {
+            color: var(--gold);
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 35px;
+            font-weight: 300;
+        }
+
+        .author-info {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 20px 30px;
+            display: inline-block;
+        }
+
+        .author-info p {
+            margin: 4px 0;
+            font-size: 1.05rem;
+        }
+
+        .author-info strong {
+            color: var(--gold-light);
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(13,13,13,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(232,163,23,0.3);
+            padding: 0 20px;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 12px 0;
+            scrollbar-width: none;
+        }
+
+        .nav-inner::-webkit-scrollbar {
+            display: none;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            white-space: nowrap;
+            transition: all 0.25s;
+        }
+
+        nav a:hover, nav a.active {
+            background: var(--gold);
+            color: #111;
+        }
+
+        /* Sections */
+        section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 6px;
+            height: 32px;
+            background: var(--gold);
+            border-radius: 3px;
+        }
+
+        .section-lead {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            max-width: 700px;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-body {
+            padding: 22px;
+        }
+
+        .card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            color: var(--gold-light);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin-top: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--gold), var(--accent));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 36px;
+            background: var(--card-bg);
+            padding: 22px 26px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 28px;
+            width: 14px;
+            height: 14px;
+            background: var(--gold);
+            border-radius: 50%;
+            border: 3px solid var(--anthracite);
+            box-shadow: 0 0 0 3px var(--gold);
+        }
+
+        .timeline-year {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        /* Photo gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            padding: 30px 14px 12px;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        /* Highlight box */
+        .highlight {
+            background: linear-gradient(135deg, rgba(232,163,23,0.15), rgba(196,92,38,0.1));
+            border-left: 5px solid var(--gold);
+            border-radius: 0 14px 14px 0;
+            padding: 28px 32px;
+            margin: 40px 0;
+        }
+
+        .highlight p {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--text);
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .stat {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 28px 20px;
+            text-align: center;
+            border: 1px solid rgba(232,163,23,0.2);
+        }
+
+        .stat-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 16px 18px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        th {
+            background: rgba(232,163,23,0.15);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--gold-light);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            padding: 50px 24px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .sources {
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: #777;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        .sources a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            section {
+                padding: 50px 16px;
+            }
+            .timeline {
+                padding-left: 28px;
+            }
+            .timeline-item::before {
+                left: -26px;
+            }
+        }
+
+        /* Print styles for presentation */
+        @media print {
+            nav { display: none; }
+            header { height: auto; min-height: 400px; page-break-after: always; }
+            section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="header-content">
+        <div class="badge">Индивидуальный проект • 11 класс</div>
+        <h1>Шахтёрское дело<br><span>города Гуково</span></h1>
+        <p class="subtitle">История, люди и судьба угольной промышленности Восточного Донбасса</p>
+        <div class="author-info">
+            <p><strong>Выполнил:</strong> Смородинов Станислав Александрович</p>
+            <p><strong>Ученик 11 класса</strong></p>
+            <p>г. Гуково, Ростовская область • 2025–2026 учебный год</p>
+        </div>
+    </div>
+</header>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <a href="#intro">Введение</a>
+        <a href="#history">История</a>
+        <a href="#mines">Шахты</a>
+        <a href="#heroes">Герои</a>
+        <a href="#museum">Музей</a>
+        <a href="#today">Сегодня</a>
+        <a href="#conclusion">Заключение</a>
+    </div>
+</nav>
+
+<!-- INTRO -->
+<section id="intro">
+    <h2 class="section-title">Введение</h2>
+    <p class="section-lead">Город Гуково — один из самых известных шахтёрских центров Восточного Донбасса. Его история неразрывно связана с добычей высококачественного антрацита — «чёрного золота».</p>
+    
+    <p>Гуково расположен в западной части Ростовской области, на восточной окраине Донецкого кряжа, всего в нескольких километрах от границы с Украиной. Площадь города — около 34–40 км². Город возник как железнодорожная станция и вырос благодаря угольным запасам.</p>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-number">1878</div>
+            <div class="stat-label">год основания станции</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">1955</div>
+            <div class="stat-label">год получения статуса города</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">8+</div>
+            <div class="stat-label">крупных шахт в составе «Гуковуголь»</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">24 тыс.</div>
+            <div class="stat-label">человек работало в объединении в советское время</div>
+        </div>
+    </div>
+
+    <div class="highlight">
+        <p>«История города Гуково неразрывно связана с развитием угледобывающей промышленности. Некогда шахтёрский город славился трудолюбивыми людьми, показывающими высокие результаты.»</p>
+    </div>
+</section>
+
+<!-- HISTORY -->
+<section id="history">
+    <h2 class="section-title">История шахтёрского дела</h2>
+    <p class="section-lead">От первых «мышеловок» начала XX века до мощного треста «Гуковуголь» и сложного периода реструктуризации.</p>
+
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-year">1878–1904</div>
+            <p>Открыто движение по Донецкой каменноугольной железной дороге. Станция Ковалёво (с 1904 года — Гуково) стала точкой роста будущего города. Земли принадлежали казачьему офицеру Савве Гукову.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">1907–1914</div>
+            <p>Появились первые небольшие шахты («мышеловки»). В 1910 году инженер-промышленник Иванов заложил шахты №1 и №2. Позже их выкупил англичанин Эрнест Струм (Азовская угольная компания). Добыча началась в 1913–1914 годах.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">1917–1920-е</div>
+            <p>Революция и Гражданская война почти полностью разрушили угольную промышленность Юга России. Шахты были затоплены и остановлены.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">1927–1939</div>
+            <p>Восстановление. В 1927 году — шахта «Углерод», в 1929–1931 — восстановление «Азовок» (будущая «Антрацит»). В феврале 1939 года создан трест «Гуковуголь» (шахты №15/16, №20, «Углерод», им. Чичерина). Суточная добыча — более 2100 тонн.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">1941–1943</div>
+            <p>Великая Отечественная война. В июле 1941 добыча остановлена. Оккупация с июля 1942 по февраль 1943. После освобождения уже через 2 месяца начали отгружать первые эшелоны угля. Восстановление шло героическими усилиями под руководством М.И. Северина.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">1945–1955</div>
+            <p>Быстрый рост. В 1945 году добыча удвоилась. В 1948 трест награждён орденом Трудового Красного Знамени. 30 июня 1955 года рабочий посёлок Гуково получил статус города областного подчинения.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">1960–1980-е</div>
+            <p>Расцвет. Введены крупнейшие шахты: «Алмазная» (1958), «Гуковская» (1963–1964, проектная мощность 1,8 млн т), «Восточная» / им. 50-летия Октября (1967). Объединение «Гуковуголь» стало одним из флагманов отрасли.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">1990–2010-е</div>
+            <p>Реструктуризация угольной отрасли. Многие шахты закрыты или законсервированы («Антрацит» — 1997, «Гуковская» — 2009, «Алмазная» и др.). Сложная судьба собственности (Русский уголь, Кингкоул и др.).</p>
+        </div>
+    </div>
+</section>
+
+<!-- MINES -->
+<section id="mines">
+    <h2 class="section-title">Главные шахты Гуково</h2>
+    <p class="section-lead">В советское время в городе и окрестностях работало более десятка шахт. Вот ключевые предприятия.</p>
+
+    <div class="card-grid">
+        <div class="card">
+            <img src="images/mine-headframe.jpeg" alt="Шахта Гуковская">
+            <div class="card-body">
+                <h3>Шахта «Гуковская»</h3>
+                <p>Сдана в эксплуатацию 27 декабря 1963 года. Проектная мощность — 1800 тыс. тонн в год. Крупнейшая шахта города. Добыча прекращена в 2009 году, позже законсервирована.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="images/historical-headframe.jpeg" alt="Шахта Антрацит">
+            <div class="card-body">
+                <h3>Шахта «Антрацит» (№15/16)</h3>
+                <p>Одна из старейших. Начало — 1910–1914 годы (Азовская компания). Восстановлена в 1930-е, работала до 1997–1998 годов. Дала начало современной шахте «Платовская».</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="images/building-columns.jpeg" alt="Шахта Алмазная">
+            <div class="card-body">
+                <h3>Шахта «Алмазная»</h3>
+                <p>Введена в 1958 году (мощность 600 тыс. т). После реконструкции — до 1,2 млн т. Одна из самых современных. В 2010-е признана банкротом, стволы демонтированы.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="images/rostovskaya.png" alt="Шахта Ростовская">
+            <div class="card-body">
+                <h3>Шахта «Ростовская»</h3>
+                <p>Бывшая №19-20. Объединена в 1953 году. В 1971 получила название «Ростовская». В 2010–2020-е пытались восстановить добычу, позже — банкротство и торги имуществом.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="images/church-mine.jpg" alt="Шахта Восточная">
+            <div class="card-body">
+                <h3>Шахта «Восточная»</h3>
+                <p>Бывшая №8 «Гуковская-Основная», затем им. 50-летия Октября (1967). Флагман «Гуковугля». В 2007–2012 годы — банкротство.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="images/gukovugol-office.jpeg" alt="Трест Гуковуголь">
+            <div class="card-body">
+                <h3>Трест / ПО «Гуковуголь»</h3>
+                <p>Создан в 1939 году. Включал до 8 шахт и 3 обогатительные фабрики. В лучшие годы давал работу десяткам тысяч человек.</p>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="margin-top:50px; margin-bottom:16px; font-family:'Montserrat',sans-serif; color:var(--gold-light);">Сравнительная таблица</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Шахта</th>
+                <th>Год ввода</th>
+                <th>Проектная мощность</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>«Антрацит» (15/16)</td>
+                <td>1914 / 1930-е</td>
+                <td>~450 тыс. т</td>
+                <td>Закрыта (1997)</td>
+            </tr>
+            <tr>
+                <td>«Ростовская»</td>
+                <td>1953</td>
+                <td>450 тыс. т</td>
+                <td>Консервация / банкротство</td>
+            </tr>
+            <tr>
+                <td>«Алмазная»</td>
+                <td>1958</td>
+                <td>до 1200 тыс. т</td>
+                <td>Закрыта, стволы демонтированы</td>
+            </tr>
+            <tr>
+                <td>«Гуковская»</td>
+                <td>1963–1964</td>
+                <td>1800 тыс. т</td>
+                <td>Консервация (2009)</td>
+            </tr>
+            <tr>
+                <td>«Восточная»</td>
+                <td>1967</td>
+                <td>1500 тыс. т</td>
+                <td>Банкротство (2012)</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- HEROES -->
+<section id="heroes">
+    <h2 class="section-title">Герои шахтёрского труда</h2>
+    <p class="section-lead">За десятилетия работы гуковские шахтёры показали высочайший профессионализм и мужество. Многие удостоены высоких званий.</p>
+
+    <div class="card-grid">
+        <div class="card">
+            <div class="card-body">
+                <h3>Михаил Иванович Северин</h3>
+                <p>Один из руководителей восстановления шахт после оккупации. Под его руководством в 1943–1946 годах трест поднимался из руин. Добыча в 1945 году выросла вдвое.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3>Пётр Иванович Харченко</h3>
+                <p>Бригадир горнорабочих очистного забоя шахты «Гуковская». Герой Социалистического Труда. Символ ударного труда гуковских горняков.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3>Юрий Александрович Логвиненко</h3>
+                <p>Начальник шахты №15-16 «Антрацит». Удостоен звания Героя Социалистического Труда за выдающиеся производственные результаты.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3>Память о погибших</h3>
+                <p>За более чем 70 лет на предприятиях «Гуковугля» произошло около 900 несчастных случаев со смертельным исходом. Каждый год 2 июня отмечается День памяти погибших шахтёров Российского Донбасса.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="highlight" style="margin-top:40px;">
+        <p>Гуковские шахтёры трудились не хуже самого Стаханова. Их труд стал основой не только экономики города, но и всей угольной промышленности Восточного Донбасса.</p>
+    </div>
+</section>
+
+<!-- MUSEUM -->
+<section id="museum">
+    <h2 class="section-title">Музей шахтёрского труда</h2>
+    <p class="section-lead">Уникальный объект — единственный государственный музей шахтёрского труда в европейской части России.</p>
+
+    <p><strong>Гуковский музей шахтёрского труда имени Л.И. Микулина</strong> (ул. Ковалёва, 49) — главная достопримечательность города и живая память о шахтёрской эпохе.</p>
+
+    <ul style="margin:20px 0 30px 20px; color:var(--text-muted);">
+        <li>Основан в 1964–1965 годах как народный музей (инициатор — педагог Леонид Иванович Микулин).</li>
+        <li>С 2002 года — официальный статус музея шахтёрского труда.</li>
+        <li>Более 23 000 предметов в фондах, 18 коллекций.</li>
+        <li>Комплекс залов «Шахта» — штрек и забой в натуральную величину из подлинного оборудования.</li>
+        <li>Ежегодно посещают около 25 000 человек.</li>
+    </ul>
+
+    <div class="gallery">
+        <div class="gallery-item">
+            <img src="images/mine-tunnel.jpeg" alt="Экспозиция музея">
+            <div class="gallery-caption">Экспозиция «Шахта» в натуральную величину</div>
+        </div>
+        <div class="gallery-item">
+            <img src="images/museum-building.jpeg" alt="Музей Гуково">
+            <div class="gallery-caption">Гуковский музей шахтёрского труда</div>
+        </div>
+        <div class="gallery-item">
+            <img src="images/mining-machine.jpeg" alt="Шахтёрское оборудование">
+            <div class="gallery-caption">Горно-шахтное оборудование</div>
+        </div>
+        <div class="gallery-item">
+            <img src="images/historical-headframe.jpeg" alt="История шахт">
+            <div class="gallery-caption">История развития отрасли</div>
+        </div>
+    </div>
+
+    <p style="margin-top:30px;">В музее можно увидеть ламповую, клеть, механизированную лаву, проходческий забой, коллекцию минералов, фалеристику, предметы быта шахтёров и залы, посвящённые Великой Отечественной войне и казачеству.</p>
+</section>
+
+<!-- TODAY -->
+<section id="today">
+    <h2 class="section-title">Гуково сегодня</h2>
+    <p class="section-lead">После массового закрытия шахт город переживает непростой период трансформации.</p>
+
+    <p>Большинство крупных шахт остановлены или находятся в стадии консервации/банкротства. Имущество некоторых предприятий (в том числе «Ростовской») выставлялось на торги. Город остаётся моногородом, где угольная отрасль долгие годы определяла жизнь почти каждой семьи.</p>
+
+    <p>При этом сохраняется память о шахтёрской славе: работают музеи, проводятся Дни шахтёра, экскурсии «По местам шахтёрской славы», сохраняются памятники и традиции.</p>
+
+    <div class="highlight">
+        <p>Даже когда шахты закрываются, история города и труд тысяч горняков остаются. Задача новых поколений — помнить эту историю и находить новые пути развития для Гуково.</p>
+    </div>
+</section>
+
+<!-- CONCLUSION -->
+<section id="conclusion">
+    <h2 class="section-title">Заключение</h2>
+    
+    <p>Шахтёрское дело сделало Гуково городом. От первых примитивных «мышеловок» 1907 года до мощных механизированных предприятий 1960–80-х годов — путь, полный труда, героизма, потерь и достижений.</p>
+
+    <p>Сегодня угольная промышленность города переживает глубокий кризис, но память о шахтёрах жива. Музей шахтёрского труда имени Л.И. Микулина, памятные даты, рассказы ветеранов и семейные истории — всё это позволяет нам, молодому поколению, понимать, какой ценой строился наш город.</p>
+
+    <p style="margin-top:30px;"><strong>Цель проекта достигнута:</strong> я изучил историю шахтёрского дела Гуково, систематизировал сведения о главных предприятиях, героях труда и современном состоянии отрасли, а также представил материал в удобной для презентации форме.</p>
+
+    <div style="margin-top:50px; padding:30px; background:var(--card-bg); border-radius:16px; text-align:center;">
+        <p style="font-family:'Montserrat',sans-serif; font-size:1.3rem; color:var(--gold); margin-bottom:10px;">Спасибо за внимание!</p>
+        <p style="color:var(--text-muted);">Смородинов Станислав Александрович<br>11 класс • 2025–2026 учебный год</p>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p><strong>Индивидуальный проект</strong></p>
+    <p>Тема: Шахтёрское дело города Гуково</p>
+    <p>Выполнил: Смородинов Станислав Александрович, ученик 11 класса</p>
+    
+    <div class="sources">
+        <p style="margin-bottom:10px; color:#aaa;"><strong>Основные источники:</strong></p>
+        <p>• MiningWiki — шахтёрская энциклопедия (статьи о шахтах «Антрацит», «Гуковская», «Алмазная», «Ростовская», «Восточная», «Гуковуголь»)</p>
+        <p>• Газета «Звезда Гуково» (материалы по истории угольной промышленности)</p>
+        <p>• Большая российская энциклопедия, Википедия, официальные сайты музея</p>
+        <p>• Гуковский музей шахтёрского труда им. Л.И. Микулина</p>
+        <p>• Архивные и краеведческие материалы по истории Восточного Донбасса</p>
+    </div>
+</footer>
+
+<script>
+    // Highlight active nav link on scroll
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('nav a');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (scrollY >= sectionTop - 150) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+</body>
+</html>
